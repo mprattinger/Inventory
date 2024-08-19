@@ -1,4 +1,5 @@
 using System;
+using System.Reflection.Metadata.Ecma335;
 using FlintSoft.Result;
 using Microsoft.AspNetCore.Http.HttpResults;
 
@@ -10,11 +11,17 @@ public class GlobalEndpointFilter : IEndpointFilter
     {
         var res = await next(context);
 
-        if(res is Error) {
+        if (res is Error)
+        {
             Console.WriteLine("error");
             return Results.BadRequest((res as Error)!.Description);
         }
 
-        return res;
+        var rType = (res as FlintSoft.Result.IResult);
+        if (rType is null)
+        {
+            throw new Exception("Cannot detect Resulttype!");
+        }
+        return Results.Ok(rType.GetValue());
     }
 }

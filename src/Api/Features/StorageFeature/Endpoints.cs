@@ -8,8 +8,8 @@ public class Endpoints : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("/", () => {
-            return new Error("TEST", "Test");
-        });
+        var grp = app.MapGroup("api/storage");
+
+        grp.MapGet("/", async (GetAllStorages useCase) => await useCase.Handle());
     }
 }

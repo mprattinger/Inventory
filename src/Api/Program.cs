@@ -15,19 +15,15 @@ builder.Services.AddFeatures();
 
 var app = builder.Build();
 
-if(app.Environment.IsDevelopment()) 
+if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
 var routes = app.MapGroup(string.Empty);
-// routes.AddEndpointFilter<GlobalEndpointFilter>();
-routes.AddEndpointFilter((context, next) =>
-{
-    return next(context);
-});
+routes.AddEndpointFilter<GlobalEndpointFilter>();
 
-app.MapEndpoints();
+routes.MapEndpoints(app);
 
 app.Run();
