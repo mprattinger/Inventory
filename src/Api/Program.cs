@@ -1,5 +1,7 @@
 using System.Reflection;
-using Lib;
+using Api.Features;
+using Api.Infrastructure;
+using FlintSoft.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +10,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
 
+builder.Services.AddInfrastructure();
+builder.Services.AddFeatures();
+
 var app = builder.Build();
 
 if(app.Environment.IsDevelopment()) 
@@ -15,6 +20,13 @@ if(app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+var routes = app.MapGroup(string.Empty);
+// routes.AddEndpointFilter<GlobalEndpointFilter>();
+routes.AddEndpointFilter((context, next) =>
+{
+    return next(context);
+});
 
 app.MapEndpoints();
 

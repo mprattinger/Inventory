@@ -4,7 +4,7 @@ namespace Api.Features.StorageFeature;
 
 public static class Extensions
 {
-    public static IServiceCollection AddStockFeature(this IServiceCollection services) {
+    public static IServiceCollection AddStorageFeature(this IServiceCollection services) {
         
         services.AddScoped<CreateStorage>();
         services.AddScoped<ModifyStorage>();

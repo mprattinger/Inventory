@@ -1,14 +1,8 @@
-using System;
+using Api.Infrastructure.Repositories;
 
 namespace Api.Features.StorageFeature;
 
-public interface IStorageRepository
+public interface IStorageRepository : IRepository<Storage>
 {
-    void Add(Storage stock);
-
-    void Update(Storage stock);
-
     Task<bool> Exists(string description);
-
-    Task<Storage?> GetById(Guid id);
 }

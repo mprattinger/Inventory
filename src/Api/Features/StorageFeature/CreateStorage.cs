@@ -1,7 +1,5 @@
-using System;
 using Api.Infrastructure;
 using FlintSoft.Result;
-using FlintSoft.Result.Types;
 
 namespace Api.Features.StorageFeature;
 
@@ -17,16 +15,13 @@ public sealed class CreateStorage(ILogger<CreateStorage> logger, IStorageReposit
                     return new Errors.StorageExistsError();
                 }
 
-                var stock = new Storage
-                {
-                    Id = Guid.NewGuid(),
-                    Description = request.Description
-                };
+                var storage = new Storage(Guid.NewGuid());
+                storage.Description = request.Description;
 
-                stockRepository.Add(stock);
+                stockRepository.Add(storage);
                 await unitOfWork.SaveChangesAsync();
 
-                return stock;
+                return storage;
             }
             catch (Exception ex)
             {

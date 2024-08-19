@@ -1,10 +1,13 @@
 using System;
+using Api.Infrastructure.Data;
 
 namespace Api.Features.StorageFeature;
 
-public class Storage
+public class Storage : Entity
 {
-    public Guid Id { get; set; }
+    public Storage(Guid id) : base(id) { }
+    
+    private Storage() {}
 
     public string Description { get; set; } = "";
 }

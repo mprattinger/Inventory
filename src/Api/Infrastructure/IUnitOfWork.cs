@@ -4,5 +4,5 @@ namespace Api.Infrastructure;
 
 public interface IUnitOfWork
 {
-    Task SaveChangesAsync();
+    Task SaveChangesAsync(CancellationToken token = default);
 }
