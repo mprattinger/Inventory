@@ -10,6 +10,8 @@ public static class Extensions
         services.AddScoped<CreateStorage>();
         services.AddScoped<ModifyStorage>();
         services.AddScoped<GetAllStorages>();
+        services.AddScoped<GetStorage>();
+        services.AddScoped<RemoveStorage>();
 
         return services;
     }

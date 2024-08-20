@@ -12,4 +12,6 @@ public interface IRepository<T> where T : Entity
     Task<T?> GetById(Guid id);
 
     Task<List<T>> GetAll();
+
+    void Remove(T entity);
 }

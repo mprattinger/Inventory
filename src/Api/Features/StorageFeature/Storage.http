@@ -23,6 +23,13 @@ PATCH http://localhost:5072/api/storage
 Content-Type: application/json
 
 {
-    "Id": "3081f97e-9ae2-4731-8fff-b3d2a6e95746",
+    "Id": "c0682637-af60-41e9-b06e-8f968ec515b2",
     "Description": "Keller"
 }
+
+###
+
+GET http://localhost:5072/api/storage/3b7ef21c-974b-403d-8154-f98b758388df
+
+###
+DELETE http://localhost:5072/api/storage/c0682637-af60-41e9-b06e-8f968ec515b2
