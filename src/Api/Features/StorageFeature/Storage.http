@@ -23,6 +23,6 @@ PATCH http://localhost:5072/api/storage
 Content-Type: application/json
 
 {
-    "Id": "e5b9706d-a2c4-4ae2-9a0d-ae6f7f4afd3a",
+    "Id": "3081f97e-9ae2-4731-8fff-b3d2a6e95746",
     "Description": "Keller"
 }

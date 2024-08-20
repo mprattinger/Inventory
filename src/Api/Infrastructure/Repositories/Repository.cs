@@ -17,17 +17,18 @@ public abstract class Repository<T> where T : Entity
 
     public void Add(T entity)
     {
-DbContext.Add(entity);
+        DbContext.Add(entity);
     }
 
     public void Update(T entity)
     {
-DbContext.Update(entity);
+        DbContext.Update(entity);
     }
 
     public Task<T?> GetById(Guid id)
     {
-        return Task.FromResult(default(T));
+        return DbContext.Set<T>()
+                .SingleOrDefaultAsync(e => e.Id == id);
     }
 
     public Task<List<T>> GetAll()
