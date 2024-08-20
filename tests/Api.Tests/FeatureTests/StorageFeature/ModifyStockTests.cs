@@ -39,7 +39,7 @@ public class ModifyStorageTests
         //Arrange
         var guid = Guid.NewGuid();
         var command = new ModifyStorage.Request(guid, "Modified Storage");
-        var stock = new Storage { Id = guid, Description = command.Description };
+        var stock = new Storage(guid) { Description = command.Description };
         _storageRepository.GetById(guid).Returns(stock);
 
         //Act
