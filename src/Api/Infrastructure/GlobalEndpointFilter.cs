@@ -9,19 +9,42 @@ public class GlobalEndpointFilter : IEndpointFilter
 {
     public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
     {
-        var res = await next(context);
-
-        if (res is Error)
+        var response = await next(context);
+        
+        try
         {
-            Console.WriteLine("error");
-            return Results.BadRequest((res as Error)!.Description);
+            var result = (response as FlintSoft.Result.IResult);
+            if(result is null) {
+                throw new Exception("IResult is null!");
+            }
+
+            if(result.IsFailure) {
+                var err = result.GetError();
+                if(err is null) {
+                    throw new Exception("No error");
+                }
+
+                Error error = (Error)err;
+                return Results.BadRequest(error.Code + ": " + error.Description);
+            }
+
+            if(result.IsNotFound) {
+                var err = result.GetError();
+                if(err is null) {
+                    throw new Exception("No error");
+                }
+
+                FlintSoft.Result.NotFound nf = (FlintSoft.Result.NotFound)err;
+                return Results.NotFound(nf.Code + ": " + nf.Description);
+            }
+
+            return Results.Ok(result.GetValue());
+        }
+        catch (Exception)
+        {
+            
         }
 
-        var rType = (res as FlintSoft.Result.IResult);
-        if (rType is null)
-        {
-            throw new Exception("Cannot detect Resulttype!");
-        }
-        return Results.Ok(rType.GetValue());
+        return response;
     }
 }

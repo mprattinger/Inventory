@@ -13,7 +13,7 @@ public sealed class ModifyStorage(ILogger<ModifyStorage> logger, IStorageReposit
             {
                 var storage = await storageRepository.GetById(request.Id);
                 if(storage is null) {
-                    return new Errors.StorageNotFoundError();
+                    return new Errors.StorageNotFound();
                 }
 
                 storage.Description = request.Description;

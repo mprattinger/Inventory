@@ -1,1 +1,28 @@
 GET http://localhost:5072/api/storage
+
+###
+
+POST http://localhost:5072/api/storage
+Content-Type: application/json
+
+{
+    "Description": "Büro"
+}
+
+###
+POST http://localhost:5072/api/storage
+Content-Type: application/json
+
+{
+    "Description": "KellEr"
+}
+
+###
+
+PATCH http://localhost:5072/api/storage
+Content-Type: application/json
+
+{
+    "Id": "e5b9706d-a2c4-4ae2-9a0d-ae6f7f4afd3a",
+    "Description": "Keller"
+}

@@ -10,8 +10,8 @@ public static class Errors
         public StorageExistsError() : base($"Storage.{nameof(StorageExistsError)}", "Storage exists") { }
     }
 
-    public class StorageNotFoundError : Error
+    public class StorageNotFound : NotFound
     {
-        public StorageNotFoundError() : base($"Storage.{nameof(StorageNotFoundError)}", "Storage not found") { }
+        public StorageNotFound() : base($"Storage.{nameof(StorageNotFound)}", "Storage not found") { }
     }
 }

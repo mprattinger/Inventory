@@ -13,4 +13,10 @@ public class InventoryDataContext : DbContext
     {
 
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Storage>()
+        .HasData(new Storage(Guid.NewGuid()) { Description = "Kellerabteil"});
+    }
 }
