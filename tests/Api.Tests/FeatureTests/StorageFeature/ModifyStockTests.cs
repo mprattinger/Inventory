@@ -29,8 +29,8 @@ public class ModifyStorageTests
         //Act
         var result = await _handler.Handle(command);
 
-        result.IsFailure.Should().BeTrue();
-        result.Error.Should().BeOfType<Errors.StorageNotFoundError>();
+        result.IsNotFound.Should().BeTrue();
+        result.Error.Should().BeOfType<Errors.StorageNotFound>();
     }
 
     [Fact]
