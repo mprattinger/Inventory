@@ -26,7 +26,7 @@ public sealed class ModifyStorage(ILogger<ModifyStorage> logger, IStorageReposit
             catch (Exception ex)
             {
                 logger.LogError(ex, "Error modifing the storage with id {id} to name {description}: {message}", request.Id, request.Description, ex.Message);
-                return new Error(nameof(ModifyStorage), $"Error modifing storage!");
+                return new Errors.ModifyStorageExceptionError(ex, nameof(ModifyStorage));
             }
     }
 }

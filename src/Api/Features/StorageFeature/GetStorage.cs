@@ -7,7 +7,8 @@ public class GetStorage(ILogger<GetStorage> logger, IStorageRepository storageRe
 {
     public record Request(Guid Id);
 
-    public async Task<Result<Storage>> Handle(Request request) {
+    public async Task<Result<Storage>> Handle(Request request)
+    {
         try
         {
             var storage = await storageRepository.GetById(request.Id);
@@ -21,7 +22,7 @@ public class GetStorage(ILogger<GetStorage> logger, IStorageRepository storageRe
         catch (Exception ex)
         {
             logger.LogError(ex, "Error loading the storage with id {id}: {message}", request.Id, ex.Message);
-            return new Error(nameof(ModifyStorage), $"Error loading storage!");
+            return new Errors.GetStorageExceptionError(ex, nameof(ModifyStorage));
         }
     }
 }

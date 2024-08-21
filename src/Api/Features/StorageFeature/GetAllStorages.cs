@@ -15,7 +15,7 @@ public sealed class GetAllStorages(ILogger<GetAllStorages> logger, IStorageRepos
         catch (Exception ex)
         {
             logger.LogError(ex, "Error reading all storages: {message}", ex.Message);
-            return new Error(nameof(GetAllStorages), $"Error reading all storage!");
+            return new Errors.GetAllStoragesStorageExceptionError(ex, nameof(GetAllStorages));
         }
     }
 }

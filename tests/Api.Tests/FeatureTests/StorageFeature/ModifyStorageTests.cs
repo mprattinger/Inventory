@@ -3,6 +3,7 @@ using Api.Infrastructure;
 using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 using NSubstitute.ReturnsExtensions;
 
 namespace Api.Tests.FeatureTests.StorageFeature;
@@ -48,5 +49,19 @@ public class ModifyStorageTests
         result.IsSuccess.Should().BeTrue();
         result.Value!.Id.Should().Be(guid);
         result.Value!.Description.Should().Be(command.Description);
+    }
+
+    [Fact]
+    public async Task Handle_HandlingExcpetion_IfServiceThrows()
+    {
+        var storageId = Guid.NewGuid();
+        var storage = new Storage(storageId) { Description = "Test" };
+        _storageRepository.GetById(storageId).Throws(new Exception("Test"));
+
+        var result = await _handler.Handle(new ModifyStorage.Request(storageId, "Test"));
+
+        result.IsSuccess.Should().BeFalse();
+        result.IsFailure.Should().BeTrue();
+        result.Error!.Description.Should().Be("Error modifing storage!");
     }
 }

@@ -27,7 +27,7 @@ public class RemoveStorage(ILogger<RemoveStorage> logger, IStorageRepository sto
         catch (Exception ex)
         {
             logger.LogError(ex, "Error deleting the storage with id {id}: {message}", request.Id, ex.Message);
-            return new Error(nameof(ModifyStorage), $"Error deleting storage!");
+            return new Errors.RemoveStorageExceptionError(ex, nameof(ModifyStorage));
         }
     }
 }

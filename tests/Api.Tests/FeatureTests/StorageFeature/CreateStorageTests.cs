@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
 using FluentAssertions;
 using Api.Features.StorageFeature;
+using NSubstitute.ExceptionExtensions;
 
 namespace Api.Tests.FeatureTests.StorageFeature;
 
@@ -42,5 +43,18 @@ public class CreateStorageTests
 
         result.IsSuccess.Should().BeTrue();
         result.Value!.Description.Should().Be(command.Description);
+    }
+
+    [Fact]
+    public async Task Handle_HandlingExcpetion_IfServiceThrows()
+    {
+        var command = new CreateStorage.Request("First Storage");
+        _storageRepository.Exists(command.Description).Throws(new Exception("TEst"));
+
+        var result = await _handler.Handle(command);
+
+        result.IsSuccess.Should().BeFalse();
+        result.IsFailure.Should().BeTrue();
+        result.Error!.Description.Should().Be("Error creating storage!");
     }
 }

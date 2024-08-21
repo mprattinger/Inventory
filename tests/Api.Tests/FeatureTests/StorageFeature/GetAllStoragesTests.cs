@@ -3,6 +3,7 @@ using Api.Features.StorageFeature;
 using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 
 namespace Api.Tests.FeatureTests.StorageFeature;
 
@@ -39,5 +40,17 @@ public class GetAllStoragesTests
 
         result.IsSuccess.Should().BeTrue();
         result.Value!.Count.Should().Be(1);
+    }
+
+    [Fact]
+    public async Task Handle_HandlingExcpetion_IfServiceThrows()
+    {
+        _storageRepository.GetAll().Throws(new Exception("Test"));
+
+        var result = await _handler.Handle();
+
+        result.IsSuccess.Should().BeFalse();
+        result.IsFailure.Should().BeTrue();
+        result.Error!.Description.Should().Be("Error reading all storage!");
     }
 }
