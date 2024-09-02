@@ -1,16 +1,37 @@
 using Api.Infrastructure;
 using FlintSoft.Result;
+using FlintSoft.Result.FluentValidation;
+using FluentValidation;
 
 namespace Api.Features.StorageFeature;
 
-public sealed class CreateStorage(ILogger<CreateStorage> logger, IStorageRepository stockRepository, IUnitOfWork unitOfWork)
+public sealed class CreateStorage(ILogger<CreateStorage> logger,
+IStorageRepository stockRepository,
+IUnitOfWork unitOfWork,
+IValidator<CreateStorage.Request> validator)
 {
     public record Request(string Description);
+
+    public class Validator : AbstractValidator<Request>
+    {
+        public Validator()
+        {
+            RuleFor(x => x.Description)
+            .NotEmpty()
+            .WithMessage("Description must not be empty!");
+        }
+    }
 
     public async Task<Result<Storage>> Handle(Request request)
     {
         try
         {
+            var validationResult = await validator.ValidateAsync(request);
+            if (!validationResult.IsValid)
+            {
+                return validationResult.FromValidationResult()!;
+            }
+
             if (await stockRepository.Exists(request.Description))
             {
                 return new Errors.StorageExistsError();

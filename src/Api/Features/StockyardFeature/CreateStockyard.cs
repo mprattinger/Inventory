@@ -23,6 +23,10 @@ public sealed class CreateStockyard(ILogger<CreateStockyard> logger, IStockyardR
                 Position3 = request.Position3
             };
 
+            repository.Add(stockyard);
+
+            await unitOfWork.SaveChangesAsync();
+
             return stockyard;
         }
         catch (Exception ex)
